@@ -1647,6 +1647,42 @@
         .wa .wa-tx {
           display: none;
         }
+
+        /* UNIDADES DE NEGOCIO - DESLIZABLE EN CELULAR */
+        .units-grid {
+          display: flex;
+          gap: 16px;
+
+          overflow-x: auto;
+          overflow-y: hidden;
+
+          scroll-snap-type: x mandatory;
+          scroll-behavior: smooth;
+
+          padding-bottom: 14px;
+
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+
+        /* Oculta la barra de desplazamiento en Chrome/Safari */
+        .units-grid::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Cada tarjeta */
+        .units-grid .unit {
+          flex: 0 0 88%;
+          width: 88%;
+
+          scroll-snap-align: start;
+        }
+
+        /* Evita efecto hover extraño en celular */
+        .units-grid .unit:hover {
+          transform: none;
+          box-shadow: none;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
         * {
