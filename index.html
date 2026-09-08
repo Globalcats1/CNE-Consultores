@@ -2491,10 +2491,10 @@
           </div>
         </div>
         <form
-          class="form reveal"
+          action="assets/php/contact.php"
+          method="post"
           id="contactForm"
-          action="./assets/php/contact.php"
-          method="POST"
+          class="form"
         >
           <div class="frow">
             <div class="fg">
@@ -2775,44 +2775,33 @@
       if (contactForm && contactResult && submitContact) {
         const originalButton = submitContact.innerHTML;
 
-        function showContactMessage(message, type) {
-          contactResult.textContent = message;
-
-          contactResult.style.marginTop = "14px";
-          contactResult.style.padding = "14px 16px";
-          contactResult.style.borderRadius = "12px";
-          contactResult.style.textAlign = "center";
-          contactResult.style.fontSize = "0.9rem";
-          contactResult.style.fontWeight = "600";
-
-          if (type === "success") {
-            contactResult.style.background = "#ecfdf5";
-            contactResult.style.color = "#166534";
-          } else {
-            contactResult.style.background = "#fee2e2";
-            contactResult.style.color = "#991b1b";
-          }
-        }
-
         contactForm.addEventListener("submit", async function (e) {
           e.preventDefault();
 
+          // Validaciones normales del navegador
           if (!contactForm.checkValidity()) {
             contactForm.reportValidity();
             return;
           }
 
+          // Desactivar el botón mientras se envía
           submitContact.disabled = true;
           submitContact.textContent = "Enviando...";
 
-          contactResult.textContent = "Enviando solicitud...";
-          contactResult.style.marginTop = "14px";
-          contactResult.style.padding = "14px 16px";
-          contactResult.style.borderRadius = "12px";
-          contactResult.style.textAlign = "center";
-          contactResult.style.fontSize = "0.9rem";
-          contactResult.style.background = "#f6f5f3";
-          contactResult.style.color = "#17171a";
+          // Mensaje mientras se procesa
+          contactResult.innerHTML = `
+      <div style="
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 0.9rem;
+        background: #f6f5f3;
+        color: #17171a;
+      ">
+        Enviando solicitud...
+      </div>
+    `;
 
           try {
             const formData = new FormData(contactForm);
@@ -2822,24 +2811,35 @@
               body: formData,
             });
 
-            const data = await response.json();
+            // contact.php devuelve HTML
+            const data = await response.text();
 
-            if (!response.ok || !data.ok) {
-              throw new Error(
-                data.message || "No fue posible enviar la solicitud.",
-              );
+            // Mostrar la respuesta que envíe PHP
+            contactResult.innerHTML = data;
+
+            // Limpiar formulario solamente si el envío fue correcto
+            if (response.ok) {
+              contactForm.reset();
             }
-
-            showContactMessage(data.message, "success");
-
-            contactForm.reset();
           } catch (error) {
-            showContactMessage(
-              error.message ||
-                "Ocurrió un error al enviar la solicitud. Intenta nuevamente.",
-              "error",
-            );
+            contactResult.innerHTML = `
+        <div style="
+          margin-top: 14px;
+          padding: 18px;
+          background: #7f1d1d;
+          color: #ffffff;
+          border-radius: 12px;
+          text-align: center;
+        ">
+          <strong>No fue posible enviar el mensaje.</strong>
+          <br>
+          <span style="font-size: 14px;">
+            Ocurrió un problema de conexión. Intenta nuevamente.
+          </span>
+        </div>
+      `;
           } finally {
+            // Volver a activar el botón
             submitContact.disabled = false;
             submitContact.innerHTML = originalButton;
           }
