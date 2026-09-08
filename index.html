@@ -1368,6 +1368,17 @@
         margin-top: 14px;
       }
 
+      .form .fine a {
+        color: var(--red);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .form .fine a:hover {
+        color: var(--red-deep);
+      }
+
       /* FOOTER */
       footer {
         background: var(--char-2);
@@ -1442,6 +1453,21 @@
         flex-wrap: wrap;
         gap: 12px;
         font-family: "Space Mono", monospace;
+      }
+
+      .legal-links {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .legal-links a {
+        color: #8a8a8e;
+        transition: color 0.2s;
+      }
+
+      .legal-links a:hover {
+        color: var(--red);
       }
 
       /* WHATSAPP */
@@ -2486,7 +2512,7 @@
                   <path d="M3 7l9 6 9-6" />
                 </svg>
               </div>
-              <div><b>Correo</b><span>contacto@cnemx.com</span></div>
+              <div><b>Correo</b><span>cneconsultoria40@gmail.com</span></div>
             </div>
           </div>
         </div>
@@ -2619,7 +2645,11 @@
           <div id="contactResult" role="status" aria-live="polite"></div>
 
           <p class="fine">
-            Al enviar aceptas ser contactado por el equipo de CNE Consultorías.
+            Al enviar aceptas ser contactado por el equipo de CNE Consultorías
+            para dar seguimiento a tu solicitud. Consulta nuestro
+            <a href="aviso-privacidad.html" target="_blank">
+              Aviso de Privacidad </a
+            >.
           </p>
         </form>
       </div>
@@ -2677,7 +2707,12 @@
         </div>
         <div class="foot-bottom">
           <span>© 2026 CNE Consultorías · cnemx.com</span>
-          <span>Aviso de privacidad · Términos</span>
+
+          <span class="legal-links">
+            <a href="aviso-privacidad.html">Aviso de privacidad</a>
+            <span> · </span>
+            <a href="terminos.html">Términos y Condiciones</a>
+          </span>
         </div>
       </div>
     </footer>
